@@ -1,0 +1,624 @@
+@import url('https://fonts.googleapis.com/css2?family=Andika+New+Basic&display=swap');
+
+/* Full-screen background canvas */
+#interactiveCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;  /* Keeps it behind all content */
+    background-color: #1c1c1c; /* Darker color for dark theme if desired */
+}
+
+/* Adjust the container to float over the canvas */
+.container {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 700px;
+    padding: 2rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.9); /* Slight transparency */
+    border-radius: 10px;
+    box-shadow: var(--box-shadow);
+}
+
+:root {
+    /* Default Light Theme Colors */
+    --green: #43aa8b;
+    --yellow: #f4a261;
+    --red: #e76f51;
+    --blue: #007bff;
+    --dark-blue: #0056b3;
+    --light-gray: #f0f0f0;
+    --text-color: #2f3e46;
+    --background-color: #edf6f9;
+    --box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    --modal-overlay: rgba(0, 0, 0, 0.5);
+}
+
+/* Dark Theme Variables */
+body.dark-theme {
+    --background-color: #121212; /* Dark background */
+    --text-color: #e0e0e0; /* Light text color */
+    --box-background: #1e1e1e; /* Darker box background */
+    --input-background: #333333; /* Dark background for inputs */
+    --accent-color: #bb86fc; /* Accent color for interactive elements */
+    --accent-hover: #985eff; /* Darker accent for hover states */
+    --border-color: #444444; /* Border color for input and box elements */
+    --header-footer-background: #212121; /* Slightly lighter for headers and footers */
+    --shadow-color: rgba(0, 0, 0, 0.3); /* Shadow for dark theme */
+}
+
+/* Apply Dark Theme Colors */
+
+/* General background and text */
+body.dark-theme {
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+/* Header and Footer */
+body.dark-theme .header,
+body.dark-theme .footer {
+    background-color: var(--header-footer-background);
+    color: var(--text-color);
+}
+
+/* Containers and Boxes */
+body.dark-theme .container,
+body.dark-theme .budget__creation,
+body.dark-theme .expense__creation,
+body.dark-theme .recent__expenses,
+body.dark-theme .about {
+    background-color: var(--box-background);
+    color: var(--text-color);
+    box-shadow: 0 4px 8px var(--shadow-color);
+    border: 1px solid var(--border-color);
+}
+
+/* Inputs and Select Fields */
+body.dark-theme input[type="text"],
+body.dark-theme input[type="number"],
+body.dark-theme select {
+    background-color: var(--input-background);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+}
+
+body.dark-theme input[type="text"]::placeholder,
+body.dark-theme input[type="number"]::placeholder {
+    color: #bbbbbb;
+}
+
+/* Buttons */
+body.dark-theme button {
+    background-color: var(--accent-color);
+    color: var(--text-color);
+}
+
+body.dark-theme button:hover {
+    background-color: var(--accent-hover);
+}
+
+/* Modal Styling */
+body.dark-theme .modal-content {
+    background-color: var(--box-background);
+    color: var(--text-color);
+    box-shadow: 0 4px 8px var(--shadow-color);
+}
+
+body.dark-theme .close-btn {
+    color: #e0e0e0;
+}
+
+/* Progress Bar */
+body.dark-theme .progress-bar {
+    background-color: var(--input-background);
+}
+
+body.dark-theme .progress-bar-inner {
+    background-color: var(--accent-color);
+}
+
+/* View Details Button */
+body.dark-theme .view-details-btn {
+    background-color: var(--accent-color);
+    color: var(--text-color);
+}
+
+body.dark-theme .view-details-btn:hover {
+    background-color: var(--accent-hover);
+}
+
+/* Delete Button */
+body.dark-theme .delete-expense-btn {
+    background-color: #cf6679;
+    color: var(--text-color);
+}
+
+body.dark-theme .delete-expense-btn:hover {
+    background-color: #b34a5b;
+}
+
+/* Budget Card Styling for Dark Theme */
+body.dark-theme .budget {
+    background-color: var(--box-background); /* Dark background for budget cards */
+    color: var(--text-color); /* Light text color */
+    border: 1px solid var(--border-color); /* Border to match dark theme */
+    box-shadow: 0 4px 8px var(--shadow-color);
+}
+
+body.dark-theme .budget .spent,
+body.dark-theme .budget .remaining,
+body.dark-theme .budget .progress-bar-inner {
+    color: var(--text-color); /* Consistent text color */
+}
+
+body.dark-theme .budget .progress-bar {
+    background-color: var(--input-background); /* Darker progress bar */
+}
+
+body.dark-theme .budget .progress-bar-inner {
+    background-color: var(--accent-color); /* Accent color for progress */
+}
+
+/* "View Details" Button on Budget Card */
+body.dark-theme .view-details-btn {
+    background-color: var(--accent-color);
+    color: var(--text-color);
+}
+
+body.dark-theme .view-details-btn:hover {
+    background-color: var(--accent-hover);
+}
+
+.theme-toggle {
+    text-align: center;
+    width: 100%;
+    margin: 20px 0;
+}
+
+#toggleThemeBtn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    background-color: var(--blue);
+    color: white;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+#toggleThemeBtn:hover {
+    background-color: var(--dark-blue);
+}
+
+
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+@media (max-width: 600px) {
+    .about {
+        display: none;
+    }
+}
+
+/* Keyframe animation for pulse effect */
+/* Keyframe animations */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-2px); }
+    50% { transform: translateX(2px); }
+    75% { transform: translateX(-2px); }
+    100% { transform: translateX(0); }
+}
+
+@keyframes glow {
+    0% {
+        box-shadow: 0 0 5px var(--green);
+    }
+    50% {
+        box-shadow: 0 0 15px var(--green);
+    }
+    100% {
+        box-shadow: 0 0 5px var(--green);
+    }
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-5px);
+    }
+    60% {
+        transform: translateY(-3px);
+    }
+}
+
+/* Button-specific animations */
+
+/* Add Expense Button - Pulse effect on click */
+#addExpenseBtn:active {
+    animation: pulse 0.3s ease-in-out;
+}
+
+/* Create Budget Button - Glow effect on hover */
+#createBudgetBtn:hover {
+    animation: glow 0.5s ease-in-out infinite alternate;
+}
+
+/* View Details Button - Bounce effect on hover */
+.view-details-btn:hover {
+    animation: bounce 0.5s ease-in-out;
+}
+
+/* Delete Expense Button - Shake effect on click */
+.delete-expense-btn:active {
+    animation: shake 0.3s ease-in-out;
+}
+
+/* Transition for all buttons */
+button, .view-details-btn, .delete-expense-btn {
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+/* Button-specific hover transitions */
+
+/* Add Expense Button - Slight scale and color change on hover */
+#addExpenseBtn:hover {
+    background-color: #d64545;
+    transform: scale(1.05);
+}
+
+/* Create Budget Button - Color change and slight scale */
+#createBudgetBtn:hover {
+    background-color: #369e72;
+    transform: scale(1.05);
+}
+
+/* View Details Button - Darker blue color and slight scale */
+.view-details-btn:hover {
+    background-color: var(--dark-blue);
+    transform: scale(1.05);
+}
+
+/* Delete Expense Button - Darker red color and slight scale */
+.delete-expense-btn:hover {
+    background-color: #c93a3a;
+    transform: scale(1.05);
+}
+
+/* Base button transition for smoother interactions */
+button, .view-details-btn, .delete-expense-btn {
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Hover effect - already added in the previous step */
+#addExpenseBtn:hover,
+#createBudgetBtn:hover,
+.view-details-btn:hover,
+.delete-expense-btn:hover {
+    transform: scale(1.05);
+}
+
+/* Focus effect - outline and slight shadow */
+button:focus, .view-details-btn:focus, .delete-expense-btn:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(67, 170, 139, 0.5);
+}
+
+/* Active effect - press effect with scale and color darkening */
+#addExpenseBtn:active {
+    background-color: #c43a3a;
+    transform: scale(0.98);
+}
+
+#createBudgetBtn:active {
+    background-color: #2d8656;
+    transform: scale(0.98);
+}
+
+.view-details-btn:active {
+    background-color: var(--dark-blue);
+    transform: scale(0.98);
+}
+
+.delete-expense-btn:active {
+    background-color: #a33030;
+    transform: scale(0.98);
+}
+
+/* Hover effect - subtle border change */
+input[type="text"]:hover, input[type="number"]:hover, select:hover {
+    border-color: var(--green);
+}
+
+/* Focus effect - border color change and subtle shadow */
+input[type="text"]:focus, input[type="number"]:focus, select:focus {
+    outline: none;
+    border-color: var(--green);
+    box-shadow: 0 0 5px rgba(67, 170, 139, 0.5);
+}
+
+/* Active effect for input fields - slight darkening */
+input[type="text"]:active, input[type="number"]:active, select:active {
+    background-color: #f5f5f5;
+}
+
+
+:root {
+    --green: #43aa8b;
+    --yellow: #f4a261;
+    --red: #e76f51;
+    --blue: #007bff;
+    --dark-blue: #0056b3;
+    --light-gray: #f0f0f0;
+    --text-color: #2f3e46;
+    --background-color: #edf6f9;
+    --box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    --modal-overlay: rgba(0, 0, 0, 0.5);
+}
+
+/* Global and Container Styling */
+body {
+    background-color: var(--background-color);
+    font-family: 'Andika New Basic', sans-serif;
+    color: var(--text-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 100%;
+    max-width: 700px;
+    padding: 2rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Header Section */
+.header {
+    text-align: center;
+    background-color: var(--green);
+    color: white;
+    padding: 1.5rem 0;
+    width: 100%;
+}
+
+.header h1 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.header p {
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+/* About Section */
+.about {
+    background-color: white;
+    color: var(--text-color);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: var(--box-shadow);
+    margin: 20px 0;
+    text-align: center;
+    width: 100%;
+}
+
+/* Footer Section */
+.footer {
+    text-align: center;
+    padding: 1rem;
+    background-color: var(--text-color);
+    color: white;
+    font-size: 0.9rem;
+    width: 100%;
+}
+
+/* Budget and Expense Creation Forms */
+.budget__creation, .expense__creation, .recent__expenses {
+    background-color: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: var(--box-shadow);
+    width: 100%;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.budget__creation h2, .expense__creation h2, .recent__expenses h2 {
+    color: var(--text-color);
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+}
+
+input[type="text"], input[type="number"], select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    font-size: 1rem;
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#createBudgetBtn {
+    background-color: var(--green);
+}
+
+#addExpenseBtn {
+    background-color: var(--red);
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+/* Budget List Styling */
+.budget__list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Budget Card Styling */
+.budget {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: var(--box-shadow);
+    text-align: center;
+    transition: background-color 0.3s ease;
+    font-size: 1.1rem;
+    margin-bottom: 25px;
+}
+
+.budget h4 {
+    margin-bottom: 10px;
+    font-size: 1.3rem;
+    color: var(--text-color);
+}
+
+.budget p {
+    margin: 5px 0;
+    font-size: 1rem;
+}
+
+/* Progress Bar */
+.budget .progress-bar {
+    width: 100%;
+    height: 8px;
+    background-color: #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.budget .progress-bar-inner {
+    height: 100%;
+    width: 0;
+    max-width: 100%;
+    background-color: var(--green);
+    transition: width 0.3s ease-in-out;
+}
+
+/* View Details Button */
+.view-details-btn {
+    margin-top: 15px;
+    padding: 8px 16px;
+    background-color: var(--blue);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.view-details-btn:hover {
+    background-color: var(--dark-blue);
+}
+
+/* Modal Styling */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 10;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--modal-overlay);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 25px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 600px;
+    box-shadow: var(--box-shadow);
+    text-align: center;
+    position: relative;
+}
+
+/* Close Button in Modal */
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close-btn:hover {
+    color: var(--red);
+}
+
+/* Modal Buttons */
+#editBudgetBtn, #saveBudgetBtn {
+    padding: 10px 20px;
+    margin-top: 15px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    cursor: pointer;
+    width: 100%;
+}
+
+#editBudgetBtn {
+    background-color: var(--yellow);
+    color: white;
+}
+
+#saveBudgetBtn {
+    background-color: var(--green);
+    color: white;
+}
+
+.hidden {
+    display: none;
+}
