@@ -13,6 +13,13 @@
         <p>Manage your finances effortlessly. Track budgets, expenses, and stay on top of your spending.</p>
     </header>
 
+    <!-- Tab Buttons -->
+    <div class="tabs">
+        <button class="tab-btn" data-tab="budget__creation">Budgets</button>
+        <button class="tab-btn" data-tab="recent__expenses">Recent Expenses</button>
+        <button class="tab-btn" data-tab="interactive-section">Whiteboard</button>
+    </div>
+
     <!-- About Section -->
     <section class="about">
         <h2>About This App</h2>
@@ -23,20 +30,18 @@
         <button id="toggleThemeBtn">Toggle Dark/Light Theme</button>
     </div>
 
-    <canvas id="interactiveCanvas"></canvas>
-
     <!-- Main App Container -->
     <div class="container">
         <!-- Budget Creation Section -->
-        <div class="budget__creation">
+        <section id="budget__creation" class="budget__creation">
             <h2>Create Budget</h2>
             <input type="text" id="budgetName" placeholder="Budget Name (e.g., Groceries)">
             <input type="number" id="budgetAmount" placeholder="Amount (e.g., 350)">
             <button id="createBudgetBtn">Create Budget</button>
-        </div>
+        </section>
 
         <!-- Expense Creation Section -->
-        <div class="expense__creation">
+        <section id="expense__creation" class="expense__creation">
             <h2>Add New Expense</h2>
             <input type="text" id="expenseName" placeholder="Expense Name (e.g., Coffee)">
             <input type="number" id="expenseAmount" placeholder="Amount (e.g., 5.50)">
@@ -44,7 +49,7 @@
                 <option value="">Select Budget</option>
             </select>
             <button id="addExpenseBtn">Add Expense</button>
-        </div>
+        </section>
 
         <!-- Budget List Section -->
         <div id="budget__list" class="budget__list">
@@ -52,7 +57,7 @@
         </div>  
 
         <!-- Recent Expenses Section -->
-        <div class="recent__expenses">
+        <section id="recent__expenses" class="recent__expenses">
             <h2>Recent Expenses</h2>
             <table id="expenseTable">
                 <thead>
@@ -63,11 +68,9 @@
                         <th>Budget</th>
                     </tr>
                 </thead>
-                <tbody id="expenseTableBody">
-                    <!-- Expense items will be dynamically added here -->
-                </tbody>
+                <tbody id="expenseTableBody"></tbody>
             </table>
-        </div>
+        </section>
 
         <!-- Budget Details Modal -->
         <div id="budgetDetailsModal" class="modal">
@@ -98,11 +101,21 @@
         </div>
     </div>
 
+    <!-- Whiteboard Section -->
+    <section id="interactive-section" class="interactive-section">
+        <h2>Whiteboard</h2>
+        <div class="canvas-container">
+            <canvas id="whiteboardCanvas" width="500" height="300"></canvas>
+        </div>
+        <button id="clearCanvasBtn">Clear Whiteboard</button>
+        <p>Use this whiteboard to jot down calculations or notes!</p>
+    </section>
+      
+
     <!-- Footer Section -->
     <footer class="footer">
         <p>Budget Tracker App &copy; 2023. Built for Personal Finance Management.</p>
     </footer>
-    <script src="backgroundParticles.js"></script>
     <script type="module" src="main.js"></script>
 </body>
 </html>

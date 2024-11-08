@@ -24,3 +24,53 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.classList.add('dark-theme');
     }
 });
+
+// Whiteboard Canvas Setup
+const canvas = document.getElementById("whiteboardCanvas");
+const ctx = canvas.getContext("2d");
+let isDrawing = false;
+
+// Start drawing when the mouse is pressed
+canvas.addEventListener("mousedown", (e) => {
+    isDrawing = true;
+    ctx.beginPath();
+    ctx.moveTo(e.offsetX, e.offsetY);
+});
+
+// Draw as the mouse moves
+canvas.addEventListener("mousemove", (e) => {
+    if (isDrawing) {
+        ctx.lineTo(e.offsetX, e.offsetY);
+        ctx.strokeStyle = "#000"; // Set drawing color (black)
+        ctx.lineWidth = 2; // Set line width
+        ctx.lineCap = "round"; // Smooth the line ends
+        ctx.stroke();
+    }
+});
+
+// Stop drawing when the mouse is released
+canvas.addEventListener("mouseup", () => {
+    isDrawing = false;
+    ctx.closePath();
+});
+
+// Clear the canvas
+document.getElementById("clearCanvasBtn").addEventListener("click", () => {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+    const tabButtons = document.querySelectorAll(".tab-btn");
+
+    tabButtons.forEach(button => {
+        button.addEventListener("click", () => {
+            const targetId = button.getAttribute("data-tab");
+            const targetSection = document.getElementById(targetId);
+            
+            // Scroll to the section smoothly
+            if (targetSection) {
+                targetSection.scrollIntoView({ behavior: "smooth", block: "start" });
+            }
+        });
+    });
+});
